@@ -1,0 +1,10 @@
+.img{
+    width: 100%;
+    height: 40rem;
+}
+.carausel-caption{
+    margin: 0 24rem;
+}
+input::placeholder{
+    color: white;
+}
