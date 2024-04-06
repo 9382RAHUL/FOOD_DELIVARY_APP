@@ -9,29 +9,56 @@ const Signup = () => {
     password: "",
     geolocation: "",
   });
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log(JSON.stringify({
+  //       name: credentials.name,
+  //       email: credentials.email,
+  //       password: credentials.password,
+  //       location: credentials.geolocation,
+  //     }),)
+  //   const response = await fetch("http://localhost:5000/api/createuser", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       name: credentials.name,
+  //       email: credentials.email,
+  //       password: credentials.password,
+  //       location: credentials.geolocation,
+  //     }),
+  //   });
+  //   const json = await response.json();
+  //   console.log(json);
+    
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(JSON.stringify({
-        name: credentials.name,
-        email: credentials.email,
-        password: credentials.password,
-        location: credentials.geolocation,
-      }),)
-    const response = await fetch("http://localhost:5000/api/createuser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: credentials.name,
-        email: credentials.email,
-        password: credentials.password,
-        location: credentials.geolocation,
-      }),
-    });
-    const json = await response.json();
-    console.log(json);
-    
+  
+    const { name, email, password, geolocation } = credentials;
+  
+    try {
+      const response = await fetch("http://localhost:5000/api/createuser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          location: geolocation,
+        }),
+      });
+  
+      const json = await response.json();
+  
+      console.log(json);
+  
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
   const onChange = (event) => {
     setcredentials({

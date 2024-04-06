@@ -13,7 +13,10 @@ const  Cart=() =>{
       </div>
     )
   }
-  
+  // const handleRemove = (index)=>{
+  //   console.log(index)
+  //   dispatch({type:"REMOVE",index:index})
+  // }
 
   const handleCheckOut = async () => {
     let userEmail = localStorage.getItem("userEmail");
@@ -36,6 +39,36 @@ const  Cart=() =>{
     }
   }
 
+  // const handleCheckOut = async () => {
+  //   try {
+  //     let userEmail = localStorage.getItem("userEmail");
+  
+  //     const response = await fetch("http://localhost:5000/api/orderData", {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({
+  //         order_data: data,
+  //         email: userEmail,
+  //         order_date: new Date().toDateString()
+  //       })
+  //     });
+  
+  //     console.log("JSON RESPONSE:::::", response.status);
+  
+  //     if (response.ok) {
+  //       dispatch({ type: "DROP" });
+  //     } else {
+  //       console.error("Error:", response.status);
+  //       // Handle error appropriately, e.g., show a message to the user
+  //     }
+  //   } catch (error) {
+  //     console.error("Fetch error:", error);
+  //     // Handle error appropriately, e.g., show a message to the user
+  //   }
+  // };
+  
   let totalPrice = data.reduce((total, food) => total + food.price, 0)
   return (
     <div>

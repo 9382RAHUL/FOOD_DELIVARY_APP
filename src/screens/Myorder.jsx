@@ -1,58 +1,41 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 const Myorder = () => {
-const [orderData,setorderData]=useState({});
-const fetchMyOrder = async () => {
-    console.log(localStorage.getItem('userEmail'))
-    await fetch("http://localhost:5000/api/myOrderData", {
-      
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body:JSON.stringify({
-            email:localStorage.getItem('userEmail')
-        })
-    }).then(async (res) => {
-        let response = await res.json()
-        await setorderData(response)
-    })
-}
+  const [orderData, setorderData] = useState("");
 
-// const fetchMyOrder = async () => {
-//     const user  = JSON.parse(localStorage.getItem('user'));
-//     if (!user) {
-//         console.error('No user object found in local storage');
-//         return;
-//       }
-    
-//       const { userEmail } = user;
-//     try {
-//       const response = await fetch('http://localhost:5000/api/myOrderData', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//           email: userEmail
-//         })
-//       });
+  const fetchMyOrder = async () => {
+    try {
+      const userEmail = localStorage.getItem("userEmail");
+      console.log(userEmail); 
   
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! status: ${response.status}`);
-//       }
+      const response = await fetch("http://localhost:5000/api/myorderData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: userEmail,
+        }),
+      });
   
-//       const data = await response.json();
-//       setorderData(data);
-//     } catch (error) {
-//       console.error('Error fetching my order data:', error);
-//     }
-//   }
-useEffect(() => {
-    fetchMyOrder()
-}, [])
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+  
+      const responseData = await response.json();
+      setorderData(responseData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+     
+    }
+  };
+  
+  useEffect(() => {
+    fetchMyOrder();
+  }, [setorderData]); 
+  
 
   return (
     <>
@@ -62,20 +45,21 @@ useEffect(() => {
 
       <div className="container">
         <div className="row">
-          {
-            orderData 
-            ? Array(orderData).map((data) => {
-                return data.orderData
+          {orderData 
+            ? Array(orderData).map(data => {
+                return  (
+                  data.orderData
                   ? data.orderData.order_data
                       .slice(0)
                       .reverse()
                       .map((item) => {
-                        return item.map((arrayData) => {
+                        return (
+                          item.map((arrayData) => {
                           return (
                             <div>
                               {arrayData.Order_date ? (
                                 <div className="m-auto mt-5">
-                                  {(data = arrayData.Order_date)}
+                                  {data = arrayData.Order_date}
                                   <hr />
                                 </div>
                               ) : (
@@ -87,15 +71,7 @@ useEffect(() => {
                                       maxHeight: "360px",
                                     }}
                                   >
-                                    <img
-                                      src={arrayData.img}
-                                      className="card-img-top"
-                                      alt="..."
-                                      style={{
-                                        height: "120px",
-                                        objectFit: "fill",
-                                      }}
-                                    />
+                                   
                                     <div className="card-body">
                                       <h5 className="card-title">
                                         {arrayData.name}
@@ -121,9 +97,9 @@ useEffect(() => {
                               )}
                             </div>
                           );
-                        });
+                        }));
                       })
-                  : "";
+                  : "");
               })
             : ""}
         </div>
@@ -137,3 +113,5 @@ useEffect(() => {
 };
 
 export default Myorder;
+
+

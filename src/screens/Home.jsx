@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "./home.css";
 import Card from "../components/Card";
-
+// import Caraosel from "../components/Caraosel";
 const Home = () => {
   const [search,setsearch]=useState("");
   const [foodcat, setfoodcat] = useState([]);
@@ -19,7 +19,7 @@ const Home = () => {
     response = await response.json();
     setfooditem(response[0]);
     setfoodcat(response[1]);
-   
+    // console.log(response[0],response[1]);
   };
   useEffect(() => {
     loaddata();
@@ -30,7 +30,7 @@ const Home = () => {
         <Navbar />
       </div>
       <div>
-        
+        {/* <Caraosel/>  */}
         <div
           id="carouselExampleFade"
           className="carousel slide carousel-fade"
@@ -108,7 +108,7 @@ const Home = () => {
         </div>
       </div>
       <div className="container">
-        {foodcat
+        {foodcat !== []
           ? foodcat.map((data) => {
               return (
                 <div className="row mb-3">
@@ -116,7 +116,7 @@ const Home = () => {
                     {data.CategoryName}
                   </div>
                   <hr />
-                  {fooditem 
+                  {fooditem !== []
                     ? fooditem
                         .filter(
                           (item) => (item.CategoryName === data.CategoryName) && (item.name.toLowerCase().includes(search.toLowerCase()))
@@ -128,10 +128,11 @@ const Home = () => {
                               className="col-12 col-md-6 col-lg-3"
                             >
                               <Card
-                                
+                                // foodname={filteritems.name}
                                 fooditem={filteritems}
                                 options={filteritems.options[0]}
-                                
+                                // imgsrc={filteritems.img}
+                                // descrip={filteritems.description}
                               />
                             </div>
                           );

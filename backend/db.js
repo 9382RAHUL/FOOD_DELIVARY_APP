@@ -69,20 +69,39 @@ async function connectToDB() {
     }
 }
 
+// async function fetchData() {
+//     try {
+//         const fetched_data = await mongoose.connection.db.collection("sample");
+//         const data = await fetched_data.find({}).toArray();
+//         const food_category=await mongoose.connection.db.collection("foodcategory");
+//         let cat_data = await food_category.find({}).toArray();
+//         global.sample = data;
+//         global.food_category=cat_data;
+//         // console.log(global.food_category);
+//         // console.log(global.sample);
+//     } catch (error) {
+//         console.error("Failed to fetch data:", error);
+//     }
+// }
 async function fetchData() {
     try {
-        const fetched_data = await mongoose.connection.db.collection("sample");
-        const data = await fetched_data.find({}).toArray();
-        const food_category=await mongoose.connection.db.collection("foodcategory");
-        let cat_data = await food_category.find({}).toArray();
-        global.sample = data;
-        global.food_category=cat_data;
-        // console.log(global.food_category);
-        // console.log(global.sample);
+      const sampleCollection = mongoose.connection.db.collection("sample");
+      const sampleData = await sampleCollection.find({}).toArray();
+      const foodCategoryCollection = mongoose.connection.db.collection("foodcategory");
+      const foodCategoryData = await foodCategoryCollection.find({}).toArray();
+  
+      global.sample = sampleData;
+      global.food_category = foodCategoryData;
+  
     } catch (error) {
-        console.error("Failed to fetch data:", error);
+      console.error("Failed to fetch data:", error);
+      // Consider throwing the error or returning a rejected promise instead of swallowing it
     }
-}
+  }
+  
+  fetchData().catch((error) => {
+    console.error("Failed to fetch data:", error);
+  });
 
 (async () => {
     await connectToDB();
